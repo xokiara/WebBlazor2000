@@ -1,8 +1,19 @@
+using Blazor;
+using Blazor.Interfaces;
+using Blazor.Servicios;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
+//Instanciar objeto de la clase config para utilizar nuestro srvicio en cualquier parte de la aplicación
+Config cadena = new Config(builder.Configuration.GetConnectionString("MySQL"));
+builder.Services.AddSingleton(cadena);
+
+builder.Services.AddScoped<ILoginServicio, LoginServicio>();
+builder.Services.AddScoped<IUsuarioServicio, UsuarioServicio>();
 
 var app = builder.Build();
 
